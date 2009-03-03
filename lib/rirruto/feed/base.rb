@@ -6,7 +6,11 @@ class Rirruto::Feed::Base
                 :title, 
                 :posts, 
                 :storage, 
-                :profile
+                :profile,
+                :first_run,
+                :interval,
+                :last_check,
+                :next_check
 
     def inherited(feed)
       superclass.inherited(feed) if superclass.respond_to? :inherited
@@ -29,19 +33,28 @@ class Rirruto::Feed::Base
       @profile = profile
     end
 
+    def check_every(time)
+      @interval = time
+    end
+
     def store_with(way)
       @storage = way
     end
   end
 
   def self.parse
-    @response ||= retrieve
+    if @next_check && Time.now > @next_check
+      @response = retrieve
+    end
+
     rss = ::RSS::Parser.parse(@response)
     @title ||= rss.channel.title
+    @first_run ||= []
     @posts ||= []
 
+    store = @first_run.empty? ? @first_run : @posts
     rss.items.each do |post|
-      create_post(post) if post.valid?
+      create_post(post, store)
     end
 
     self
@@ -57,20 +70,26 @@ class Rirruto::Feed::Base
 
   private
 
-  def self.create_post(item)
+  def self.create_post(item, store)
     post = Rirruto::Feed::Post.new :feed_name => name
 
     [:title, :link, :description, :date].each do |meth|
       post.send(:"#{meth}=", item.send(meth)) if item.respond_to?(meth)
     end
 
-    @posts << post
+    if store == @posts
+      store << post if post.valid?
+    else
+      store << post
+    end
   end
 
   def self.retrieve
     opts = {}
     opts.merge!({:http_basic_authentication => [*creds]}) if creds
     open(url, opts).read
+    @last_check = Time.now
+    @next_check = @last_check + @interval
   end
 end
 

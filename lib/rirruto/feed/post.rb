@@ -12,7 +12,7 @@ class Rirruto::Feed::Post < OpenStruct
 
   def valid?
     feed.posts.all? do |post|
-      post.unique_meths.all? do |meth|
+      feed.first_run && !feed.first_run.to_a.include?(post) && post.unique_meths.all? do |meth|
         post.send(meth) != self.send(meth)
       end
     end
