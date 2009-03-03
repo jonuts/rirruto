@@ -3,7 +3,7 @@ rirruto?
 
 Rirruto turns your rss feeds into proper emails.
 
-The goal is to define your mailing agent and feeds in a succinct ruby-esque fashion and have everything work wonderously.
+The goal is to define your mailing agent and feeds in a succinct ruby-esque fashion and have everything not suck horribly
 
 Usage
 =====
@@ -16,8 +16,10 @@ Mailers are defined as follows:
     class DefaultMailer < Rirruto::Mail::Profile
       username "happyuser"
       password "happyp4ss"
-      servername "localhost"
+      server "localhost"
       port 25
+      from "feh", "feh@notgmail.com"
+      to "me", "me@notgmail.com"
     end
 
 You can define multiple mail profiles if you so desire.
