@@ -1,6 +1,11 @@
 class Rirruto::Mail::Message < OpenStruct
   class << self ; attr_accessor :queue ; end
 
+  # Creates a new email and adds it to the queue to be sent out
+  #
+  # ==== Parameters
+  # The following should be set in the args hash:
+  #   :to, :from, :subject, :body
   def initialize(args={})
     super
     add_self_to_queue
@@ -10,6 +15,17 @@ class Rirruto::Mail::Message < OpenStruct
 
   def sent?
     !!@sent
+  end
+
+  def formatted_email
+%Q=
+From: #{from[0]} <#{from[1]}>
+To: #{to[0]} <#{to[1]}>
+Subject: #{subject}
+Date: #{date || Time.now}
+
+#{body}
+=
   end
 
   private

@@ -1,4 +1,12 @@
 module Rirruto::Mail
+  def self.add_to_queue(msg)
+    @queue << msg
+  end
+
+  def self.queue
+    @queue
+  end
+
   def self.send_me(profile, msg)
     begin
       Net::SMTP.start(profile.servername, profile.serverport) do |smtp|
