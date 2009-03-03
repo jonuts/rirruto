@@ -52,7 +52,7 @@ class Rirruto::Feed::Base
   end
 
   def self.reset(*vars)
-    vars.to_a.each {|v| v = nil}
+    vars.to_a.each {|v| instance_variable_set(:"@#{v}", nil)}
   end
 
   private
