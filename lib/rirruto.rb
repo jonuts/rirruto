@@ -9,22 +9,22 @@ def require_local(*filez)
   end
 end
 
-local_filez = ["ext", "rirruto/feed", "rirruto/mail"]
-
 module Rirruto
+  # erm whatevs
   def self.run
-    feeds = Feed::Base.feedlist
+    #feeds = Feed::Base.feedlist
 
-    abort("No feeds") unless feeds
+    #abort("No feeds") unless feeds
 
-    loop do
-      feeds.each do |feed|
-        feed.parse.posts.each {|post| post.to_email}
-      end
+    #loop do
+    #  feeds.each do |feed|
+    #    feed.parse.posts.each {|post| post.to_email}
+    #  end
 
-      sleep 600 # sleep less here and set check time in each feed
-    end
+    #  sleep 600 # sleep less here and set check time in each feed
+    #end
   end
 end
 
+local_filez = ["ext", "rirruto/feed", "rirruto/mail"]
 require_local *local_filez
