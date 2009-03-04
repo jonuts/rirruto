@@ -36,7 +36,7 @@ Feeds are set up in the same fashion as mailers
 
     class Slashdot < Rirruto::Feed::Base
       url "http://rss.slashdot.org/Slashdot/slashdot"
-      title "./" # set this to override the title feed. this is used in the subject of your emails
+      title "/." # set this to override the title feed. this is used in the subject of your emails
       mailer :default_mailer # this feed will use DefaultMailer 
       # creds 'user', 'pass' # define creds if your feed is behind http basic auth
     end
