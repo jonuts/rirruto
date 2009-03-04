@@ -13,6 +13,10 @@ class Rirruto::Mail::Message < OpenStruct
 
   attr_accessor :sent
 
+  def mailit
+    Rirruto::Mail.send_msg(feed.mailer, self)
+  end
+
   def sent?
     !!@sent
   end
@@ -35,5 +39,4 @@ Date: #{date || Time.now}
     self.class.queue << self
   end
 end
-
 
