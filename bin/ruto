@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require File.join(File.dirname(__FILE__), '..', 'lib', 'rirruto')
+
+rfile = ARGV.shift
+
+if rfile && File.file?(rfile)
+  require File.expand_path(rfile)
+  Rirruto.run
+else
+  puts "No rfile."
+end

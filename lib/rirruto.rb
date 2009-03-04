@@ -19,9 +19,14 @@ module Rirruto
     loop do
       feeds.each do |feed|
         feed.parse.posts.each {|post| post.to_email}
+        until((q = Rirruto::Mail::Message.queue).empty?)
+          msg = q.shift
+          msg.mailit
+          msg.sent = true
+        end if Rirruto::Mail::Message.queue
       end
 
-      sleep 600 # sleep less here and set check time in each feed
+      sleep 10
     end
   end
 end

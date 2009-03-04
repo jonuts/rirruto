@@ -48,9 +48,9 @@ class Rirruto::Feed::Base
     end
 
     rss = ::RSS::Parser.parse(@response)
-    @title ||= rss.channel.title
+    @title     ||= rss.channel.title
     @first_run ||= []
-    @posts ||= []
+    @posts     ||= []
 
     store = @first_run.empty? ? @first_run : @posts
     rss.items.each do |post|
