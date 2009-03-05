@@ -22,6 +22,7 @@ class Rirruto::Mail::Message < OpenStruct
   end
 
   def formatted_email
+
 %Q=
 From: #{from[0]} <#{from[1]}>
 To: #{to[0]} <#{to[1]}>
@@ -30,6 +31,7 @@ Date: #{date || Time.now}
 
 #{body}
 =
+
   end
 
   private
